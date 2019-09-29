@@ -58,3 +58,30 @@ class ContactHelper:
     def return_to_home_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home page").click()
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # delete first contact
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.switch_to_alert().accept()
+
+    def edit_first_contact(self):
+        wd = self.app.wd
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # edit first contact
+        wd.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='hello'])[2]/following::img[2]").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys("Johny")
+        wd.find_element_by_name("lastname").clear()
+        wd.find_element_by_name("lastname").send_keys("White")
+        wd.find_element_by_name("home").clear()
+        wd.find_element_by_name("home").send_keys("41243")
+        wd.find_element_by_name("address2").clear()
+        wd.find_element_by_name("address2").send_keys("Another address")
+        wd.find_element_by_name("update").click()
+
+
+
