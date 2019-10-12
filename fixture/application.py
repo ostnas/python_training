@@ -23,7 +23,8 @@ class Application:
 
     def open_home_page(self):
         wd = self.wd
-        wd.get("http://localhost:8080/addressbook/index.php")
+        if not (wd.current_url.endswith("/index.php")):
+            wd.get("http://localhost:8080/addressbook/index.php")
 
     def fill_text_field(self, fieldname, value):
         wd = self.wd
