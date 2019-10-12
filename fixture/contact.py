@@ -57,3 +57,8 @@ class ContactHelper:
         self.app.fill_text_field("address2", contact.address2)
         self.app.fill_text_field("phone2", contact.phone2)
         self.app.fill_text_field("notes", contact.notes)
+
+    def count(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        return len(wd.find_elements_by_name("selected[]"))
