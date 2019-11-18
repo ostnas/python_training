@@ -23,6 +23,14 @@ class ContactHelper:
         if not (wd.current_url.endswith("/index.php")):
             wd.find_element_by_link_text("home page").click()
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
 
@@ -30,7 +38,18 @@ class ContactHelper:
         wd = self.app.wd
         self.app.open_home_page()
         # select contact
-        wd.find_elements_by_name("selected[]")[index].click()
+        self.select_contact_by_index(index)
+        # delete contact
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        wd.switch_to_alert().accept()
+        wd.find_element_by_css_selector("div.msgbox")
+        self.contact_cache = None
+
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        # select contact
+        self.select_contact_by_id(id)
         # delete contact
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
@@ -49,10 +68,24 @@ class ContactHelper:
         wd.find_element_by_name("update").click()
         self.contact_cache = None
 
+    def edit_contact_by_id(self, id, contact):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_id(id)
+        # fill contact form
+        self.fill_contact_form(contact)
+        # submit contact edition
+        wd.find_element_by_name("update").click()
+        self.contact_cache = None
+
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
         self.app.open_home_page()
         wd.find_elements_by_css_selector('img[alt="Edit"]')[index].click()
+
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_element_by_xpath("//a[@href='edit.php?id=%s']" % id).click()
 
     def open_contact_view_by_index(self, index):
         wd = self.app.wd

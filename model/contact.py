@@ -42,3 +42,6 @@ class Contact:
             return int(self.id)
         else:
             return maxsize
+
+    def clean(self):
+        return Contact(id=self.id, firstname=self.firstname.strip(), lastname=self.lastname.strip())
