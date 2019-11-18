@@ -19,7 +19,25 @@ class ORMFixture:
         _table_ = 'addressbook'
         id = PrimaryKey(int, column='id')
         firstname = Optional(str, column='firstname')
+        middlename = Optional(str, column='middlename')
         lastname = Optional(str, column='lastname')
+        nickname = Optional(str, column='nickname')
+        title = Optional(str, column='title')
+        company = Optional(str, column='company')
+        address = Optional(str, column='address')
+        home = Optional(str, column='home')
+        mobile = Optional(str, column='mobile')
+        work = Optional(str, column='work')
+        email = Optional(str, column='email')
+        email2 = Optional(str, column='email2')
+        email3 = Optional(str, column='email3')
+        homepage = Optional(str, column='homepage')
+        bday = Optional(str, column='bday')
+        bmonth = Optional(str, column='bmonth')
+        byear = Optional(str, column='byear')
+        address2 = Optional(str, column='address2')
+        phone2 = Optional(str, column='phone2')
+        notes = Optional(str, column='notes')
         deprecated = Optional(datetime, column='deprecated')
         groups = Set(lambda: ORMFixture.ORMGroup, table="address_in_groups", column="group_id", reverse="contacts", lazy=True)
 
@@ -35,7 +53,12 @@ class ORMFixture:
 
     def convert_contacts_to_model(self, contacts):
         def convert(contact):
-            return Contact(id=str(contact.id), firstname=contact.firstname, lastname=contact.lastname)
+            return Contact(id=str(contact.id), firstname=contact.firstname, middlename=contact.middlename,
+                           lastname=contact.lastname, nickname=contact.nickname, title=contact.title,
+                           company=contact.company, address=contact.address, home=contact.home, mobile=contact.mobile,
+                           work=contact.work, email=contact.email, email2=contact.email2, email3=contact.email3,
+                           homepage=contact.homepage, bday=contact.bday, bmonth=contact.bmonth, byear=contact.byear,
+                           address2=contact.address2, phone2=contact.phone2, notes=contact.notes)
         return list(map(convert, contacts))
 
     @db_session
